@@ -2,7 +2,7 @@
 Mata Kuliah: Sistem Operasi
 Semester: Genap / Tahun Ajaran 2024–2025
 Nama: Fendy Agustian
-NIM: Nomor Induk Mahasiswa
+NIM: 240202898
 Modul yang Dikerjakan:
 Modul 1 – System Call dan Instrumentasi Kernel
 
