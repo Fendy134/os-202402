@@ -34,8 +34,7 @@ Langkah-langkah yang saya lakukan dalam implementasi modul ini adalah:
 
 ---
 
-## ✅ Uji Fungsionalitas<img width="725" height="622" alt="modul 1" src="https://github.com/user-attachments/assets/1a58182e-7959-44ea-a5c7-ff006b188907" />
-
+## ✅ Uji Fungsionalitas
 
 Program uji yang saya jalankan untuk memastikan fungsi bekerja dengan benar adalah:
 
@@ -48,3 +47,52 @@ Program uji yang saya jalankan untuk memastikan fungsi bekerja dengan benar adal
 
 ### 📍 Output `ptest`
 
+PID MEM NAME
+1 4096 init
+2 2048 sh
+3 2048 ptest
+
+shell
+Copy code
+
+### 📍 Output `rtest`
+
+Read Count Sebelum: 4
+hello
+Read Count Setelah: 5
+
+yaml
+Copy code
+
+Jika diminta screenshot, dapat dilampirkan:
+
+
+
+yaml
+Copy code
+
+---
+
+## ⚠️ Kendala yang Dihadapi
+
+Beberapa kendala yang sempat saya hadapi selama implementasi antara lain:
+
+- Kesalahan saat menggunakan `argptr()` menyebabkan kernel panic karena pointer dari user-space tidak tervalidasi dengan benar.
+- Salah menggunakan `ptable_lock` padahal tidak tersedia di versi xv6-public, sehingga harus menggunakan `ptable.lock` dari struktur `ptable`.
+- Kesalahan indentasi di `Makefile` (menggunakan spasi alih-alih tab) menyebabkan program uji tidak dikenali.
+
+---
+
+## 📚 Referensi
+
+- MIT xv6 Book: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
+- xv6-public GitHub Repo: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
+- Diskusi dan dokumentasi praktikum
+- Stack Overflow dan GitHub Issues terkait system call di xv6
+
+---
+Jika kamu ingin saya bantu ekspor ke PDF atau Word (.docx), saya bisa bantu hasilkan markdown-nya ke format tersebut melalui alat konversi eksternal (misalnya Pandoc) atau kamu bisa upload file ini di editor Markdown online seperti:
+
+dillinger.io
+
+markdowntopdf.com
