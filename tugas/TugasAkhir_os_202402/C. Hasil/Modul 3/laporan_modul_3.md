@@ -1,97 +1,108 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+**Mata Kuliah**: Sistem Operasi  
+**Semester**: Genap / Tahun Ajaran 2024–2025  
+**Nama**: `Fendy Agustian`  
+**NIM**: `<Nomor Induk Mahasiswa>`  
+**Modul yang Dikerjakan**: Modul 3 – Manajemen Memori Tingkat Lanjut (xv6-public x86)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+Modul ini mengimplementasikan dua fitur memori tingkat lanjut pada xv6:
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+1. **Copy-on-Write (CoW) Fork**  
+   Fork menjadi lebih efisien dengan berbagi halaman memori read-only antar proses. Salinan halaman hanya dibuat saat ada proses yang melakukan penulisan.
+
+2. **Shared Memory ala System V**  
+   Implementasi mekanisme berbagi halaman memori antar proses berdasarkan *key*. Halaman akan dibebaskan saat tidak ada proses yang mereferensikannya lagi.
+
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+### A. Copy-on-Write Fork (CoW)
 
-### Contoh untuk Modul 1:
+- Menambahkan array `ref_count[]` untuk setiap halaman fisik di `vm.c`
+- Membuat fungsi `incref()` dan `decref()` untuk manajemen referensi halaman
+- Menambahkan flag `PTE_COW` di `mmu.h`
+- Mengganti `copyuvm()` menjadi `cowuvm()` di `fork()` (`proc.c`)
+- Mengatur ulang page fault handler (`trap.c`) untuk menangani penulisan ke halaman COW
+- Memastikan `incref()` dan `decref()` dipanggil dengan konsisten di `kalloc()` dan `kfree()`
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+### B. Shared Memory ala System V
+
+- Menambahkan struktur `shmtab[]` di `vm.c` untuk menyimpan daftar shared memory
+- Implementasi syscall `shmget(int key)` untuk mengambil atau membuat shared memory
+- Implementasi syscall `shmrelease(int key)` untuk melepas shared memory
+- Melakukan mapping shared memory ke alamat `USERTOP - (i+1)*PGSIZE`
+- Registrasi syscall di `user.h`, `usys.S`, `syscall.h`, dan `syscall.c`
+
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
+Berikut adalah program uji yang digunakan:
 
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
-
+- `cowtest.c`: Menguji apakah child menyalin halaman saat menulis dan parent tetap melihat nilai awal.
+- `shmtest.c`: Menguji apakah dua proses dapat berbagi dan saling mengakses halaman shared memory.
+- `fork` → memastikan tidak melakukan duplikasi memori saat fork.
+  
 ---
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
+### 📍 Outp<img width="616" height="722" alt="modul 3" src="https://github.com/user-attachments/assets/e7cad518-9a18-47d4-987e-755d09c25b24" />
+ut dari `cowtest`:
 
-```
 Child sees: Y
 Parent sees: X
-```
 
-### 📍 Contoh Output `shmtest`:
+shell
+Copy
+Edit
 
-```
+### 📍 Output dari `shmtest`:
+
 Child reads: A
 Parent reads: B
-```
 
-### 📍 Contoh Output `chmodtest`:
+shell
+Copy
+Edit
 
-```
-Write blocked as expected
-```
+### 📍 (Opsional) Screenshot:
 
-Jika ada screenshot:
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+
+yaml
+Copy
+Edit
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+- Awalnya page fault tidak berhasil karena salah cek flag `PTE_COW`
+- Salah perhitungan alamat virtual saat mapping shared memory ke `USERTOP`
+- Lupa menambah `incref()` di `kalloc()` menyebabkan free memory terlalu awal (bug)
 
 ---
 
 ## 📚 Referensi
 
-Tuliskan sumber referensi yang Anda gunakan, misalnya:
-
-* Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
-* Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
-* Stack Overflow, GitHub Issues, diskusi praktikum
+- [Buku xv6 (MIT)](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
+- [xv6-public GitHub](https://github.com/mit-pdos/xv6-public)
+- Diskusi praktikum dan forum GitHub Issues
+- Stack Overflow (keyword: `xv6 copy-on-write` dan `xv6 shared memory`)
 
 ---
+⚠️ Catatan:
 
+Ganti <Nama Lengkap> dan <Nomor Induk Mahasiswa> dengan identitasmu.
+
+Jika kamu punya screenshot, taruh file-nya di folder screenshots/ dan sesuaikan nama file-nya di bagian 📷 Hasil Uji.
+
+Markdown ini bisa langsung kamu salin ke file laporan_modul3.md atau Google Docs, tergantung format pengumpulan.
