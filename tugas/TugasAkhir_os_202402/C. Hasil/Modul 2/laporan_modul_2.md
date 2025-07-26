@@ -1,97 +1,99 @@
-# 📝 Laporan Tugas Akhir
-
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+# 📄 Laporan Tugas Akhir  
+**Mata Kuliah:** Sistem Operasi  
+**Semester:** Genap / Tahun Ajaran 2024–2025  
+**Nama:** `Fendy Agustian`  
+**NIM:** `240202898`  
+**Modul yang Dikerjakan:** Modul 2 – Penjadwalan CPU Lanjutan (Priority Scheduling Non-Preemptive)
 
 ---
 
-## 📌 Deskripsi Singkat Tugas
+## 📌 Deskripsi Singkat Tugas  
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+Modul ini bertujuan untuk memodifikasi kernel `xv6-public` agar menggunakan algoritma **Non-Preemptive Priority Scheduling** dalam pemilihan proses. Scheduler akan menjalankan proses RUNNABLE dengan nilai `priority` terendah terlebih dahulu (0 = tertinggi).  
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+Fitur baru yang ditambahkan:
+
+- Field `priority` untuk setiap proses.
+- Syscall baru `set_priority(int)` untuk mengatur prioritas proses dari user space.
+- Modifikasi pada `scheduler()` agar menggunakan sistem penjadwalan berbasis prioritas.
+
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+- Menambahkan field `int priority` ke `struct proc` di `proc.h`
+- Inisialisasi nilai default `priority = 60` pada `allocproc()` di `proc.c`
+- Membuat syscall `set_priority(int)`:
+  - Nomor syscall baru di `syscall.h`
+  - Deklarasi di `user.h`
+  - Entri syscall di `usys.S`
+  - Registrasi handler di `syscall.c`
+  - Implementasi di `sysproc.c`
+- Modifikasi fungsi `scheduler()` di `proc.c`:
+  - Scheduler memilih proses RUNNABLE dengan `priority` terkecil
+  - Non-preemptive: hanya berpindah proses setelah selesai
+- Menambahkan program uji `ptest.c`
+- Menambahkan `_ptest` ke `UPROGS` di `Makefile`
 
-### Contoh untuk Modul 1:
-
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
+### Program uji: `ptest.c`
 
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+- Membuat dua child process dengan prioritas berbeda
+- Proses dengan prioritas lebih tinggi (`priority = 10`) harus selesai lebih dulu
+
+**Urutan Output yang Diharapkan:**
+Child 2 selesai
+Child 1 selesai
+Parent selesai
+
+yaml
+Copy
+Edit
 
 ---
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
+📍 Out<img width="532" height="545" alt="modul 2" src="https://github.com/user-attachments/assets/56babd12-e424-4f32-ab44-8a2bbfa4edd1" />
+put `ptest` di shell `xv6`:
+Child 2 selesai
+Child 1 selesai
+Parent selesai
 
-```
-Child sees: Y
-Parent sees: X
-```
+scss
+Copy
+Edit
 
-### 📍 Contoh Output `shmtest`:
+📍 Screenshot (opsional):
 
-```
-Child reads: A
-Parent reads: B
-```
 
-### 📍 Contoh Output `chmodtest`:
-
-```
-Write blocked as expected
-```
-
-Jika ada screenshot:
-
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+yaml
+Copy
+Edit
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+- Awalnya syscall tidak teregister karena lupa menambahkan entri di `usys.S`
+- Scheduler sempat tetap menggunakan Round Robin karena lupa mengganti `proc = p` dengan `proc = highest`
+- Nilai prioritas tidak berubah saat runtime karena syscall `set_priority()` salah memanggil proses (harus `myproc()`)
 
 ---
 
 ## 📚 Referensi
 
-Tuliskan sumber referensi yang Anda gunakan, misalnya:
+- [MIT xv6 Book (x86)](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
+- [xv6-public GitHub](https://github.com/mit-pdos/xv6-public)
+- Diskusi Lab / Forum Praktikum Sistem Operasi
+📌 Cara Pakai:
 
-* Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
-* Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
-* Stack Overflow, GitHub Issues, diskusi praktikum
+Ubah bagian <Nama Lengkap> dan <Nomor Induk Mahasiswa> sesuai identitasmu.
 
----
+Salin isi di atas ke file laporan_modul2.md atau langsung gunakan di platform seperti GitHub / Markdown Editor (Typora, VSCode, dll).
 
+Jika butuh versi PDF, kamu bisa convert dari .md menggunakan pandoc atau editor Markdown seperti Typora.
