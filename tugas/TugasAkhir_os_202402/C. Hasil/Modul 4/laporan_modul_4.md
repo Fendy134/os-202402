@@ -1,97 +1,93 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+**Mata Kuliah**: Sistem Operasi  
+**Semester**: Genap / Tahun Ajaran 2024–2025  
+**Nama**: `Fendy Agustian`  
+**NIM**: `240202898`  
+**Modul yang Dikerjakan**: Modul 4 – Subsistem Kernel Alternatif (xv6-public)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+Modul ini mencakup dua fitur utama dalam sistem operasi xv6:
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+- Implementasi system call `chmod(path, mode)` untuk mengatur file menjadi `read-only` atau `read-write`.
+- Penambahan driver pseudo-device `/dev/random` yang menghasilkan byte acak saat dibaca.
+
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+### 🔧 System Call `chmod(path, mode)`
 
-### Contoh untuk Modul 1:
+- Menambahkan field `short mode` pada `struct inode` di `fs.h`.
+- Menambahkan syscall baru `chmod`:
+  - `syscall.h` → menambahkan `#define SYS_chmod 27`
+  - `syscall.c` → menambahkan entry `SYS_chmod`
+  - `user.h`, `usys.S` → deklarasi dan entri syscall
+  - `sysfile.c` → implementasi fungsi `sys_chmod()`
+- Menambahkan pengecekan pada `file.c::filewrite()` agar menolak penulisan pada file ber-mode read-only.
+- Program uji `chmodtest.c` untuk memverifikasi file tidak dapat ditulis setelah diset `read-only`.
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+### 🌀 Pseudo-device `/dev/random`
+
+- Menambahkan file baru `random.c`:
+  - Fungsi `randomread()` menggunakan algoritma Linear Congruential Generator (LCG) sederhana.
+- Register driver di `file.c` pada array `devsw[]` dengan major number `3`.
+- Menambahkan entri `/dev/random` di `init.c` dengan `mknod("/dev/random", 1, 3)`.
+- Program uji `randomtest.c` untuk membaca dan mencetak byte acak dari `/dev/random`.
+
+### 📄 Makefile
+
+- Menambahkan `_chmodtest\` dan `_randomtest\` pada variabel `UPROGS` agar dibangun secara otomatis.
+
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
+Program uji yang digunakan:
 
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+- `chmodtest`: Menguji apakah file tidak bisa ditulis setelah di-set sebagai read-only.
+- `randomtest`: Menguji apakah `/dev/random` menghasilkan byte acak.
 
 ---
 
 ## 📷 Hasil Uji
+<img width="977" height="552" alt="modul 4" src="https://github.com/user-attachments/assets/5644c74a-3516-4f6a-aa23-ee019f7b9587" />
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
+### 📍 Output `chmodtest`:
 
-### 📍 Contoh Output `cowtest`:
-
-```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
-
-```
-Child reads: A
-Parent reads: B
-```
-
-### 📍 Contoh Output `chmodtest`:
-
-```
 Write blocked as expected
-```
 
-Jika ada screenshot:
+shell
+Copy
+Edit
 
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+### 📍 Output `randomtest` (acak setiap kali):
+
+241 6 82 99 12 201 44 73
+
+markdown
+Copy
+Edit
+
+> Screenshot (jika ada):
+> ![Output chmodtest](./screenshots/chmodtest_output.png)  
+> ![Output randomtest](./screenshots/randomtest_output.png)
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+- Menambahkan field `mode` ke `struct inode` sempat menyebabkan error ketika mencoba menyimpan ke disk, sehingga akhirnya diputuskan disimpan hanya di memori.
+- Awalnya lupa menambahkan `iupdate(ip)` pada `sys_chmod`, menyebabkan perubahan `mode` tidak terlihat.
+- Kesalahan dalam register major number menyebabkan `/dev/random` gagal dibuka, diperbaiki dengan memastikan major=3 di `mknod()` dan `devsw[]`.
 
 ---
 
 ## 📚 Referensi
 
-Tuliskan sumber referensi yang Anda gunakan, misalnya:
-
-* Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
-* Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
-* Stack Overflow, GitHub Issues, diskusi praktikum
-
----
-
+- Buku xv6 MIT: [https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf)
+- Repositori xv6-public: [https://github.com/mit-pdos/xv6-public](https://github.com/mit-pdos/xv6-public)
+- Diskusi kelompok praktikum dan dokumentasi Linux syscall
