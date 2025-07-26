@@ -44,6 +44,7 @@ Program uji yang saya jalankan untuk memastikan fungsi bekerja dengan benar adal
 ---
 
 ## 📷 Hasil Uji
+<img width="725" height="622" alt="modul 1" src="https://github.com/user-attachments/assets/5cd07e4f-284b-44b1-8ddf-8c564df4e508" />
 
 ### 📍 Output `ptest`
 
