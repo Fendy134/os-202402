@@ -61,28 +61,17 @@ Berikut adalah program uji yang digunakan:
 Child sees: Y
 Parent sees: X
 ```
-shell
-Copy
-Edit
+
 
 ### 📍 Output dari `shmtest`:
 ```
 Child reads: A
 Parent reads: B
 ```
-shell
-Copy
-Edit
-
-### 📍 (Opsional) Screenshot:
 
 
 
-yaml
-Copy
-Edit
 
----
 
 ## ⚠️ Kendala yang Dihadapi
 
