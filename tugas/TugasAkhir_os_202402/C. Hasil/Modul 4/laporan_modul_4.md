@@ -174,17 +174,7 @@ $ randomtest
 ## 📷 Hasil Uji
 <img width="977" height="552" alt="modul 4" src="https://github.com/user-attachments/assets/5644c74a-3516-4f6a-aa23-ee019f7b9587" />
 
-### 📍 Output `chmodtest`:
-```
-Write blocked as expected
-```
 
-### 📍 Output `randomtest` (acak setiap kali):
-```
-159 114 41 116 67 198 109 232
-```
-
----
 
 ## ⚠️ Kendala yang Dihadapi
 
