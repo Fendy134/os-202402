@@ -46,31 +46,30 @@ Program audit akan dijalankan sebagai PID 1 dan menampilkan audit log
 <img width="854" height="580" alt="modul5" src="https://github.com/user-attachments/assets/b3018d66-9126-4d40-a3f2-c786fd62f81f" />
 
 
-##**📍 Output audit jika dijalankan sebagai PID 1:**
+##**📍 Output audit :**
 
-
+```
 === Audit Log ===
-[0] PID=1 SYSCALL=5 TICK=12
-[1] PID=1 SYSCALL=6 TICK=13
-[2] PID=1 SYSCALL=20 TICK=14
+[0] PID=1 SYSCALL=7 TICK=2
+[1] PID=1 SYSCALL=15 TICK=4
+[2] PID=1 SYSCALL=17 TICK=4
 ...
+```
 
-**📍 Output audit jika dijalankan oleh proses biasa:**
 
+##**⚠️ Kendala yang Dihadapi**
 
-**⚠️ Kendala yang Dihadapi**
+*Audit log terbatas maksimal 128 entri (dibatasi MAX_AUDIT)
 
-Audit log terbatas maksimal 128 entri (dibatasi MAX_AUDIT)
+*Audit tidak mencatat syscall yang gagal jika nomor tidak valid
 
-Audit tidak mencatat syscall yang gagal jika nomor tidak valid
+*Perlu mengubah init untuk bisa menjalankan audit sebagai PID 1 (tidak bisa diuji langsung dari shell)
 
-Perlu mengubah init untuk bisa menjalankan audit sebagai PID 1 (tidak bisa diuji langsung dari shell)
+**📚 Referensi**
+*Buku xv6 MIT: https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf
 
-📚 Referensi
-Buku xv6 MIT: https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf
+*Repositori xv6-public: https://github.com/mit-pdos/xv6-public
 
-Repositori xv6-public: https://github.com/mit-pdos/xv6-public
+*Diskusi kelas dan praktikum
 
-Diskusi kelas dan praktikum
-
-Stack Overflow dan forum terkait kernel xv6
+*Stack Overflow dan forum terkait kernel xv6
