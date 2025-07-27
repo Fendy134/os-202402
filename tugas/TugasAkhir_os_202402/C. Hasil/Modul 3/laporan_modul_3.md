@@ -54,6 +54,8 @@ Berikut adalah program uji yang digunakan:
 ## 📷 Hasil Uji
 
 <img width="616" height="722" alt="modul 3" src="https://github.com/user-attachments/assets/e7cad518-9a18-47d4-987e-755d09c25b24" />
+
+
 ### 📍 Output dari `cowtest`:
 ```
 Child sees: Y
