@@ -56,13 +56,14 @@ Edit
 ---
 
 ## 📷 Hasil Uji
-📍 Out<img width="532" height="545" alt="modul 2" src="https://github.com/user-attachments/assets/56babd12-e424-4f32-ab44-8a2bbfa4edd1" />
+<img width="532" height="545" alt="modul 2" src="https://github.com/user-attachments/assets/56babd12-e424-4f32-ab44-8a2bbfa4edd1" />
 
-put `ptest` di shell `xv6`:
+**📍 Output `ptest` di shell `xv6`:**
+```
 Child 2 selesai
 Child 1 selesai
 Parent selesai
-
+```
 scss
 Copy
 Edit
