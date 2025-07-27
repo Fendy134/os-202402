@@ -49,23 +49,22 @@ Program uji yang saya jalankan untuk memastikan fungsi bekerja dengan benar adal
 ### 📍 Output `ptest`
 
 PID MEM NAME
-1 4096 init
-2 2048 sh
-3 2048 ptest
+1 12288 init
+2 16384 sh
+3 12288 ptest
 
 shell
 Copy code
 
 ### 📍 Output `rtest`
 
-Read Count Sebelum: 4
+Read Count Sebelum: 12
 hello
-Read Count Setelah: 5
+Read Count Setelah: 13
 
 yaml
 Copy code
 
-Jika diminta screenshot, dapat dilampirkan:
 
 
 
