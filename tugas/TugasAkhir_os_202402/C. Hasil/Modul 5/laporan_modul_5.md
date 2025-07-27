@@ -47,26 +47,19 @@ Program audit akan dijalankan sebagai PID 1 dan menampilkan audit log
 
 
 ##**📍 Output audit jika dijalankan sebagai PID 1:**
-csharp
-Copy
-Edit
+
+
 === Audit Log ===
 [0] PID=1 SYSCALL=5 TICK=12
 [1] PID=1 SYSCALL=6 TICK=13
 [2] PID=1 SYSCALL=20 TICK=14
 ...
-📍 Output audit jika dijalankan oleh proses biasa:
-nginx
-Copy
-Edit
-Access denied or error.
-Jika ada screenshot:
 
-scss
-Copy
-Edit
-![audit_output](./screenshots/audit_output.png)
-⚠️ Kendala yang Dihadapi
+**📍 Output audit jika dijalankan oleh proses biasa:**
+
+
+**⚠️ Kendala yang Dihadapi**
+
 Audit log terbatas maksimal 128 entri (dibatasi MAX_AUDIT)
 
 Audit tidak mencatat syscall yang gagal jika nomor tidak valid
