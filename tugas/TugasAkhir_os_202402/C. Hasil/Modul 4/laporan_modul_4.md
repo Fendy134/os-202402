@@ -57,24 +57,14 @@ Program uji yang digunakan:
 <img width="977" height="552" alt="modul 4" src="https://github.com/user-attachments/assets/5644c74a-3516-4f6a-aa23-ee019f7b9587" />
 
 ### 📍 Output `chmodtest`:
-
+```
 Write blocked as expected
-
-shell
-Copy
-Edit
+```
 
 ### 📍 Output `randomtest` (acak setiap kali):
-
+```
 241 6 82 99 12 201 44 73
-
-markdown
-Copy
-Edit
-
-> Screenshot (jika ada):
-> ![Output chmodtest](./screenshots/chmodtest_output.png)  
-> ![Output randomtest](./screenshots/randomtest_output.png)
+```
 
 ---
 
