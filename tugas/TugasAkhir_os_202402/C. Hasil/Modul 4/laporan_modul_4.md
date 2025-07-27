@@ -63,7 +63,7 @@ Write blocked as expected
 
 ### 📍 Output `randomtest` (acak setiap kali):
 ```
-241 6 82 99 12 201 44 73
+159 114 41 116 67 198 109 232
 ```
 
 ---
