@@ -63,17 +63,7 @@ Edit
 Child 2 selesai
 Child 1 selesai
 Parent selesai
-```
-scss
-Copy
-Edit
 
-📍 Screenshot (opsional):
-
-
-yaml
-Copy
-Edit
 
 ---
 
