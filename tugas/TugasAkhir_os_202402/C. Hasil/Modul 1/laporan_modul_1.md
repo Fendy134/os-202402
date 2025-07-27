@@ -58,13 +58,12 @@ processes:
     name: sh
   - pid: 3
     mem: 12288
-    name: ptest
+    name: ptest```
 
 
 
 ### 📍 Output `rtest`
 
-```yaml
 Read Count Sebelum: 12
 hello
 Read Count Setelah: 13
