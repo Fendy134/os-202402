@@ -32,7 +32,8 @@ Modul ini mengimplementasikan dua fitur memori tingkat lanjut pada xv6:
 - Memastikan `incref()` dan `decref()` dipanggil dengan konsisten di `kalloc()` dan `kfree()`
 
 ### 🧪 Program Uji `cowtest.c`
-```
+
+```c
 char *shm = (char*) shmget(42);
 shm[0] = 'X';
 
