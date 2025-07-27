@@ -42,11 +42,11 @@ Build ulang dan jalankan kembali
 
 Program audit akan dijalankan sebagai PID 1 dan menampilkan audit log
 
-📷 Hasil Uji
+### 📷 Hasil Uji
 <img width="854" height="580" alt="modul5" src="https://github.com/user-attachments/assets/b3018d66-9126-4d40-a3f2-c786fd62f81f" />
 
 
-##**📍 Output audit :**
+### 📍 Output audit :
 
 ```
 === Audit Log ===
@@ -57,19 +57,21 @@ Program audit akan dijalankan sebagai PID 1 dan menampilkan audit log
 ```
 
 
-##**⚠️ Kendala yang Dihadapi**
+### ⚠️ Kendala yang Dihadapi
 
-*Audit log terbatas maksimal 128 entri (dibatasi MAX_AUDIT)
+ 
+1. Audit log terbatas maksimal 128 entri (dibatasi MAX_AUDIT) *
 
-*Audit tidak mencatat syscall yang gagal jika nomor tidak valid
+2. Audit tidak mencatat syscall yang gagal jika nomor tidak valid
 
-*Perlu mengubah init untuk bisa menjalankan audit sebagai PID 1 (tidak bisa diuji langsung dari shell)
+3. Perlu mengubah init untuk bisa menjalankan audit sebagai PID 1 (tidak bisa diuji langsung dari shell)
 
-**📚 Referensi**
-*Buku xv6 MIT: https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf
+### 📚 Referensi
 
-*Repositori xv6-public: https://github.com/mit-pdos/xv6-public
+1. Buku xv6 MIT: https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf
 
-*Diskusi kelas dan praktikum
+2. Repositori xv6-public: https://github.com/mit-pdos/xv6-public
 
-*Stack Overflow dan forum terkait kernel xv6
+3. Diskusi kelas dan praktikum
+
+4. Stack Overflow dan forum terkait kernel xv6
