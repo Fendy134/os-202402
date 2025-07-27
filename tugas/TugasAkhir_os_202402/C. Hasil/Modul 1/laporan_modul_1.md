@@ -48,16 +48,10 @@ Program uji yang saya jalankan untuk memastikan fungsi bekerja dengan benar adal
 
 ### 📍 Output `ptest`
 
-processes:
-  - pid: 1
-    mem: 12288
-    name: init
-  - pid: 2
-    mem: 16384
-    name: sh
-  - pid: 3
-    mem: 12288
-    name: ptest
+PID   MEM    NAME
+  1   12288  init
+  2   16384  sh
+  3   12288  ptest
 
 
 ### 📍 Output `rtest`
