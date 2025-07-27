@@ -53,22 +53,21 @@ Berikut adalah program uji yang digunakan:
 
 ## 📷 Hasil Uji
 
-
-### 📍 Outp<img width="616" height="722" alt="modul 3" src="https://github.com/user-attachments/assets/e7cad518-9a18-47d4-987e-755d09c25b24" />
-ut dari `cowtest`:
-
+<img width="616" height="722" alt="modul 3" src="https://github.com/user-attachments/assets/e7cad518-9a18-47d4-987e-755d09c25b24" />
+### 📍 Output dari `cowtest`:
+```
 Child sees: Y
 Parent sees: X
-
+```
 shell
 Copy
 Edit
 
 ### 📍 Output dari `shmtest`:
-
+```
 Child reads: A
 Parent reads: B
-
+```
 shell
 Copy
 Edit
