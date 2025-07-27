@@ -31,6 +31,20 @@ Modul ini mengimplementasikan dua fitur memori tingkat lanjut pada xv6:
 - Mengatur ulang page fault handler (`trap.c`) untuk menangani penulisan ke halaman COW
 - Memastikan `incref()` dan `decref()` dipanggil dengan konsisten di `kalloc()` dan `kfree()`
 
+### 🧪 Program Uji `cowtest.c`
+```
+char *shm = (char*) shmget(42);
+shm[0] = 'X';
+
+if(fork() == 0){
+  shm[0] = 'Y';
+  printf(1, "Child sees: %c\n", shm[0]);
+  exit();
+} else {
+  wait();
+  printf(1, "Parent sees: %c\n", shm[0]);
+}
+```
 ### B. Shared Memory ala System V
 
 - Menambahkan struktur `shmtab[]` di `vm.c` untuk menyimpan daftar shared memory
@@ -40,7 +54,17 @@ Modul ini mengimplementasikan dua fitur memori tingkat lanjut pada xv6:
 - Registrasi syscall di `user.h`, `usys.S`, `syscall.h`, dan `syscall.c`
 
 ---
+### ✏️ Perubahan yang Dilakukan
 
+- Menambahkan struktur `shmtab[]` di `vm.c`:
+  ```c
+  #define MAX_SHM 16
+  struct {
+    int key;
+    char *frame;
+    int refcount;
+  } shmtab[MAX_SHM];
+  ```
 ## ✅ Uji Fungsionalitas
 
 Berikut adalah program uji yang digunakan:
@@ -48,7 +72,25 @@ Berikut adalah program uji yang digunakan:
 - `cowtest.c`: Menguji apakah child menyalin halaman saat menulis dan parent tetap melihat nilai awal.
 - `shmtest.c`: Menguji apakah dua proses dapat berbagi dan saling mengakses halaman shared memory.
 - `fork` → memastikan tidak melakukan duplikasi memori saat fork.
-  
+
+### 🧪 Program Uji `shmtest.c`
+
+```c
+char *shm = (char*) shmget(42);
+shm[0] = 'A';
+
+if(fork() == 0){
+  char *shm2 = (char*) shmget(42);
+  printf(1, "Child reads: %c\n", shm2[0]);
+  shm2[1] = 'B';
+  shmrelease(42);
+  exit();
+} else {
+  wait();
+  printf(1, "Parent reads: %c\n", shm[1]);
+  shmrelease(42);
+}
+```
 ---
 
 ## 📷 Hasil Uji
