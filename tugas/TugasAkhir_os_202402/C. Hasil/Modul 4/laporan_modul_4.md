@@ -29,6 +29,25 @@ Modul ini mencakup dua fitur utama dalam sistem operasi xv6:
   - `sysfile.c` → implementasi fungsi `sys_chmod()`
 - Menambahkan pengecekan pada `file.c::filewrite()` agar menolak penulisan pada file ber-mode read-only.
 - Program uji `chmodtest.c` untuk memverifikasi file tidak dapat ditulis setelah diset `read-only`.
+  ## 📂 File yang Dimodifikasi / Ditambahkan
+
+| File          | Perubahan                                                                 |
+|---------------|---------------------------------------------------------------------------|
+| `fs.h`        | Tambahkan field `mode` ke struct `inode`                                  |
+| `inode.h`     | Tambahkan field `mode` dan pastikan `struct inode` lengkap                |
+| `file.c`      | Tambahkan pengecekan `mode` di `filewrite`, daftarkan driver random       |
+| `sysfile.c`   | Implementasi syscall `chmod()`                                            |
+| `syscall.c`   | Registrasi `sys_chmod()`                                                  |
+| `syscall.h`   | Tambahkan `#define SYS_chmod`                                             |
+| `user.h`      | Deklarasi user-level syscall `chmod()`                                    |
+| `usys.S`      | Entry syscall `chmod`                                                     |
+| `random.c`    | Implementasi handler driver `/dev/random`                                 |
+| `init.c`      | Tambahkan `mknod("/dev/random", 1, 3)` untuk inisialisasi device node     |
+| `randomtest.c`| Program user untuk mengakses `/dev/random`                                |
+| `chmodtest.c` | Program user untuk menguji write ke file read-only                        |
+| `Makefile`    | Tambahkan `_randomtest` dan `_chmodtest` ke `UPROGS`                      |
+
+---
   
 ## Bagian A – System Call chmod()
 
