@@ -132,10 +132,3 @@ Parent reads: B
 - Stack Overflow (keyword: `xv6 copy-on-write` dan `xv6 shared memory`)
 
 ---
-⚠️ Catatan:
-
-Ganti <Nama Lengkap> dan <Nomor Induk Mahasiswa> dengan identitasmu.
-
-Jika kamu punya screenshot, taruh file-nya di folder screenshots/ dan sesuaikan nama file-nya di bagian 📷 Hasil Uji.
-
-Markdown ini bisa langsung kamu salin ke file laporan_modul3.md atau Google Docs, tergantung format pengumpulan.
